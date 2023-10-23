@@ -39,6 +39,15 @@ then
     else
         echo "nautilus-python is already installed."
     fi
+elif type "rpm-ostree" > /dev/null 2>&1
+then
+    installed=`dnf list --installed nautilus-python 2> /dev/null`
+    if [ -z "$installed" ]
+    then
+        sudo rpm-ostree install nautilus-python
+    else
+        echo "nautilus-python is already installed."
+    fi
 else
     echo "Failed to find python-nautilus, please install it manually."
 fi

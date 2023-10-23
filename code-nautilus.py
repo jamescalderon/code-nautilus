@@ -56,7 +56,7 @@ class VSCodeExtension(GObject.GObject, Nautilus.MenuProvider):
         item = Nautilus.MenuItem(
             name='VSCodeOpenBackground',
             label='Open in ' + VSCODENAME,
-            tip='Opens in VSCode'
+            tip='Opens folder in VSCode'
         )
         item.connect('activate', self.launch_vscode, [file_])
 

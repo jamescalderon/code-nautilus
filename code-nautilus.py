@@ -16,7 +16,8 @@ VSCODE = 'code'
 VSCODENAME = 'Code'
 
 # always create new window?
-NEWWINDOW = False
+# NEWWINDOW = False
+NEWWINDOW = True
 
 
 class VSCodeExtension(GObject.GObject, Nautilus.MenuProvider):
@@ -44,7 +45,7 @@ class VSCodeExtension(GObject.GObject, Nautilus.MenuProvider):
         item = Nautilus.MenuItem(
             name='VSCodeOpen',
             label='Open in ' + VSCODENAME,
-            tip='Opens the selected files with VSCode'
+            tip='Opens with VSCode'
         )
         item.connect('activate', self.launch_vscode, files)
 
@@ -55,7 +56,7 @@ class VSCodeExtension(GObject.GObject, Nautilus.MenuProvider):
         item = Nautilus.MenuItem(
             name='VSCodeOpenBackground',
             label='Open in ' + VSCODENAME,
-            tip='Opens the current directory in VSCode'
+            tip='Opens in VSCode'
         )
         item.connect('activate', self.launch_vscode, [file_])
 

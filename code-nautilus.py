@@ -13,7 +13,7 @@ import os
 VSCODE = 'code'
 
 # what name do you want to see in the context menu?
-VSCODENAME = 'Code'
+VSCODENAME = 'VSCode'
 
 # always create new window?
 # NEWWINDOW = False
@@ -45,7 +45,7 @@ class VSCodeExtension(GObject.GObject, Nautilus.MenuProvider):
         item = Nautilus.MenuItem(
             name='VSCodeOpen',
             label='Open in ' + VSCODENAME,
-            tip='Opens with VSCode'
+            tip='Opens with ' + VSCODENAME
         )
         item.connect('activate', self.launch_vscode, files)
 
@@ -56,7 +56,7 @@ class VSCodeExtension(GObject.GObject, Nautilus.MenuProvider):
         item = Nautilus.MenuItem(
             name='VSCodeOpenBackground',
             label='Open in ' + VSCODENAME,
-            tip='Opens folder in VSCode'
+            tip='Opens folder in ' + VSCODENAME
         )
         item.connect('activate', self.launch_vscode, [file_])
 

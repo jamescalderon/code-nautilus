@@ -1,4 +1,4 @@
-# VSCode Nautilus Extension
+# VSCode and VSCode Insiders Nautilus Extension
 #
 # Place me in ~/.local/share/nautilus-python/extensions/,
 # ensure you have python-nautilus package, restart Nautilus, and enjoy :)
@@ -9,20 +9,21 @@ from gi.repository import Nautilus, GObject
 from subprocess import call
 import os
 
-# path to vscode
+# paths to vscode and vscode insiders
 VSCODE = 'code'
+VSCODE_INSIDERS = 'code-insiders'
 
-# what name do you want to see in the context menu?
-VSCODENAME = 'VSCode'
+# what names do you want to see in the context menu?
+VSCODENAME = 'Code'
+VSCODENAME_INSIDERS = 'Code Insiders'
 
 # always create new window?
-# NEWWINDOW = False
-NEWWINDOW = True
+NEWWINDOW = False
 
 
 class VSCodeExtension(GObject.GObject, Nautilus.MenuProvider):
 
-    def launch_vscode(self, menu, files):
+    def launch_vscode(self, menu, files, editor):
         safepaths = ''
         args = ''
 
@@ -38,26 +39,42 @@ class VSCodeExtension(GObject.GObject, Nautilus.MenuProvider):
         if NEWWINDOW:
             args = '--new-window '
 
-        call(VSCODE + ' ' + args + safepaths + '&', shell=True)
+        call(editor + ' ' + args + safepaths + '&', shell=True)
 
     def get_file_items(self, *args):
         files = args[-1]
-        item = Nautilus.MenuItem(
+
+        item_code = Nautilus.MenuItem(
             name='VSCodeOpen',
             label='Open in ' + VSCODENAME,
-            tip='Opens with ' + VSCODENAME
+            tip='Opens the selected files with VSCode'
         )
-        item.connect('activate', self.launch_vscode, files)
+        item_code.connect('activate', self.launch_vscode, files, VSCODE)
 
-        return [item]
+        item_code_insiders = Nautilus.MenuItem(
+            name='VSCodeInsidersOpen',
+            label='Open in ' + VSCODENAME_INSIDERS,
+            tip='Opens the selected files with VSCode Insiders'
+        )
+        item_code_insiders.connect('activate', self.launch_vscode, files, VSCODE_INSIDERS)
+
+        return [item_code, item_code_insiders]
 
     def get_background_items(self, *args):
         file_ = args[-1]
-        item = Nautilus.MenuItem(
+
+        item_code = Nautilus.MenuItem(
             name='VSCodeOpenBackground',
             label='Open in ' + VSCODENAME,
-            tip='Opens folder in ' + VSCODENAME
+            tip='Opens the current directory in VSCode'
         )
-        item.connect('activate', self.launch_vscode, [file_])
+        item_code.connect('activate', self.launch_vscode, [file_], VSCODE)
 
-        return [item]
+        item_code_insiders = Nautilus.MenuItem(
+            name='VSCodeInsidersOpenBackground',
+            label='Open in ' + VSCODENAME_INSIDERS,
+            tip='Opens the current directory in VSCode Insiders'
+        )
+        item_code_insiders.connect('activate', self.launch_vscode, [file_], VSCODE_INSIDERS)
+
+        return [item_code, item_code_insiders]
